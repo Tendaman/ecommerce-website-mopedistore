@@ -68,7 +68,7 @@ if(isset($message)){
 <div class="container">
 
 <section class="products" >
-   <div class="head-container" style="gap:-300px;">
+   <div class="head-container">
       <h1 class="heading">latest products</h1>
       <h3>
          <button class="btn wishlist-btn" onclick="window.location.href='wishlist.php'">

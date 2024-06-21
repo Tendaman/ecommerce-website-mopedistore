@@ -123,6 +123,7 @@ if(isset($message)){
         </div>
     </div>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script src="js/script.js"></script>
 
 <?php @include 'footer.php'; ?>
 

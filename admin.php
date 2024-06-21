@@ -84,6 +84,15 @@ if(isset($_POST['filter_category'])){
 
 </head>
 <body>
+    
+    <div class="admin-container">
+        <div class="view-order-container">
+        <a href='adminorderhistory.php' class='btn back-btn'>View Orders</a>
+        </div>
+        <div class="logout-admin-container">
+            <a href="adminpanellogin.php" class="btn logout-btn" style="width: fit-content;">Logout</a></a>
+        </div> 
+    </div>
    
 <?php
 
@@ -98,7 +107,7 @@ if(isset($message)){
 <div class="container">
 
 <section>
-
+    
 <form action="" method="post" class="add-product-form" enctype="multipart/form-data">
    <h3>Add a New Product</h3>
    <input type="text" name="p_name" placeholder="Enter the product name" class="box" required>

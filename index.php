@@ -15,8 +15,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             if($result && mysqli_num_rows($result) > 0){
                 $user_data = mysqli_fetch_assoc($result);
                 if($user_data['password'] === $password){
-                    $_SESSION['user_id'] = $user_data['user_id'];
-                    header("Location: home.php");
+                    $_SESSION['user_id'] = $user_data['id'];
+                    echo "<script> location.href='home.php'; </script>";
                     die;
                 }
             }
@@ -33,12 +33,13 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     $email = $_POST['email'];
     $phone_number = $_POST['phone_number'];
     $password = $_POST['password'];
-    $user_id = random_num(20);
+    $user_id = random_num(5);
 
     if(!empty($user_name) && !empty($email) && !empty($phone_number) && !empty($password)){
         $query = "INSERT INTO `users` (`id`, `user_name`, `email`, `phone_number`, `password`) values ('$user_id', '$user_name', '$email', '$phone_number', '$password')";
         mysqli_query($conn, $query);
-        header("Location: login.php");
+        echo "<script> location.href='login.php'; </script>";
+        echo "Signup Successful";
         die;
     }else{
         echo "All fields are required";
@@ -173,5 +174,6 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     </div>
     <?php @include 'footer.php'; ?>
     <script src="js/scripts.js"></script> 
+    <script src="js/script.js"></script> 
 </body>
 </html>

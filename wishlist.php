@@ -18,7 +18,27 @@ if(isset($_POST['add_to_cart'])){
        $message[] = 'product added to cart succesfully';
     }
  
- }
+}
+
+if(isset($_GET['delete'])){
+   $delete_id = $_GET['delete'];
+   $delete_query = mysqli_query($conn, "DELETE FROM `wishlist` WHERE id = $delete_id ") or die('query failed');
+   if($delete_query){
+      $message[] = 'Product has been deleted';
+   }else{
+      $message[] = 'Product could not be deleted';
+   }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['delete_all'])) {
+   $delete_all_query = mysqli_query($conn, "DELETE FROM `wishlist`") or die('query failed');
+   if ($delete_all_query) {
+       header('location:wishlist.php');
+       $message[] = 'All products have been deleted from your wishlist';
+   } else {
+       $message[] = 'Failed to delete all products from your wishlist';
+   }
+}
 
 ?>
 
@@ -58,44 +78,50 @@ if(isset($message)){
 
    <h1 class="heading" style="margin-top: 20px;">Wishlist</h1>
 
-        <?php
-            $select_wishlist = mysqli_query($conn, "SELECT * FROM `wishlist`");
-            if(mysqli_num_rows($select_wishlist) > 0){
-                while($fetch_wishlist = mysqli_fetch_assoc($select_wishlist)){
-        ?>
+   <?php
+      $select_wishlist = mysqli_query($conn, "SELECT * FROM `wishlist`");
+      if(mysqli_num_rows($select_wishlist) > 0){
+         while($fetch_wishlist = mysqli_fetch_assoc($select_wishlist)){
+   ?>
 
-            <div class="ppproduct-details">
-                <div class="ppproduct-image">
-                    <img src="uploaded_img/<?php echo $fetch_wishlist['image']; ?>" alt="<?php echo $fetch_wishlist['name']; ?>">
-                </div>
-                <div class="ppproduct-info">
-                    <h3><?php echo $fetch_wishlist['name']; ?></h3>
-                    <div class="price">R<?php echo $fetch_wishlist['price']; ?></div>
-                    <p><?php echo $fetch_wishlist['description']; ?></p>
-                    <div class="category">Category: <?php echo $fetch_wishlist['category']; ?></div>
-                    <form method="post" class="add-to-cart-form">
-                        <input type="hidden" name="product_name" value="<?php echo $fetch_wishlist['name']; ?>">
-                        <input type="hidden" name="product_price" value="<?php echo $fetch_wishlist['price']; ?>">
-                        <input type="hidden" name="product_image" value="<?php echo $fetch_wishlist['image']; ?>">
-                        <input type="hidden" name="product_description" value="<?php echo $fetch_wishlist['description']; ?>">
-                        <input type="hidden" name="product_category" value="<?php echo $fetch_wishlist['category']; ?>">
-                        <div class="sub-buttons">
-                        <button type="submit" name="add_to_cart" class="btn add-to-cart-btn">Add to Cart</button>
-                        </div>
-                    </form>
-                </div>
+   <div class="ppproduct-details">
+      <div class="ppproduct-image">
+         <img src="uploaded_img/<?php echo $fetch_wishlist['image']; ?>" alt="<?php echo $fetch_wishlist['name']; ?>">
+      </div>
+      <div class="ppproduct-info">
+         <h3><?php echo $fetch_wishlist['name']; ?></h3>
+         <div class="price">R<?php echo $fetch_wishlist['price']; ?></div>
+         <p><?php echo $fetch_wishlist['description']; ?></p>
+         <div class="category">Category: <?php echo $fetch_wishlist['category']; ?></div>
+         <form method="post" class="add-to-cart-form">
+            <input type="hidden" name="product_name" value="<?php echo $fetch_wishlist['name']; ?>">
+            <input type="hidden" name="product_price" value="<?php echo $fetch_wishlist['price']; ?>">
+            <input type="hidden" name="product_image" value="<?php echo $fetch_wishlist['image']; ?>">
+            <input type="hidden" name="product_description" value="<?php echo $fetch_wishlist['description']; ?>">
+            <input type="hidden" name="product_category" value="<?php echo $fetch_wishlist['category']; ?>">
+            <div class="sub-buttons">
+               <td>
+                  <button type="submit" name="add_to_cart" class="btn add-to-cart-btn">Add to Cart</button>
+                  <a style="width: fit-content; margin-top: 20px; gap: 30px;" href="wishlist.php?delete=<?php echo $fetch_wishlist['id']; ?>" class="delete-btn" onclick="return confirm('Are you sure you want to delete this?');"> <i class="fas fa-trash"></i> Delete </a>
+               </td>
             </div>
-
-      <?php
-         }
-      } else {
-         echo '<p class="empty">Your wishlist is empty</p>';
-      }
-      ?>
-
+         </form>
+      </div>
    </div>
 
+   <?php
+      }
+   } else {
+      echo '<p class="empty">Your wishlist is empty</p>';
+   }
+   ?>
+
 </section>
+
+<!-- Add Delete All Form and Button -->
+<form method="post" action="wishlist.php" style="margin-bottom: 30px; width:fit-content;">
+       <button type="submit" name="delete_all" onclick="return confirm('Are you sure you want to delete all items?');" class="btn delete-all-btn">Delete All</button>
+   </form>
 
 <?php @include 'footer.php'; ?>
 

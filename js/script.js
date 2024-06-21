@@ -49,3 +49,29 @@ $('.main-carousel').flickity({
    wrapAround: true,
    freeScroll: true
 });
+
+
+function showOrderPopup(order) {
+   var popupDetails = document.getElementById('popupDetails');
+   popupDetails.innerHTML = `
+      <p><strong>Order ID:</strong> ${order.id}</p>
+      <p><strong>Name:</strong> ${order.name}</p>
+      <p><strong>Number:</strong> ${order.number}</p>
+      <p><strong>Email:</strong> ${order.email}</p>
+      <p><strong>Payment Method:</strong> ${order.method}</p>
+      <p><strong>Address:</strong> ${order.flat}, ${order.street}, ${order.city}, ${order.state}, ${order.country} - ${order.pin_code}</p>
+      <p><strong>Total Products:</strong> ${order.total_products}</p>
+      <p><strong>Total Price:</strong> R${Number(order.total_price).toFixed(2)}</p>
+   `;
+   document.getElementById('orderPopup').style.display = 'block';
+
+}
+
+function closePopup() {
+   document.getElementById('orderPopup').style.display = 'none';
+}
+
+// Function to navigate back to the previous page
+function goBack() {
+   window.history.back();
+}

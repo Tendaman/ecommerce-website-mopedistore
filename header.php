@@ -1,7 +1,7 @@
 <header class="header">
 
    <div class="flex">
-      <a href="login.php" class="logout-btn"> 
+      <a href="index.php" class="logout-btn"> 
          <img src="images/pngwing.com.png" alt="Logout">
       </a>
       <a href="#" class="logo">Mopedi Store</a>
